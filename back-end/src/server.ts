@@ -14,6 +14,7 @@ const schema = buildSchema(`
     }
 
     type Person {
+        id: ID
         name: String
         age: Int
     }
