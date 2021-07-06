@@ -1,6 +1,6 @@
-import { buildSchema } from "graphql";
 
-const typeDefs = buildSchema(`
+export const typeDefs = `
+
     type Comment {
         id: String
         postId: String
@@ -8,6 +8,37 @@ const typeDefs = buildSchema(`
         createTime: String
         writer: String
     }
-`);
+`;
 
-export default typeDefs;
+export const resolver = {
+    Query: {
+        get_comments: () => {
+            return [
+                {
+                    id: 1,
+                    commentTxt: "test desctiption",
+                    createTime:"2021-09-12",
+                    writer: "tester",
+                    updateTime: "2021-09-12",
+                    thumbnailAddress: "String"
+                },
+                {
+                    id: 2,
+                    commentTxt: "test desctiption",
+                    createTime:"2021-09-12",
+                    writer: "tester",
+                    updateTime: "2021-09-12",
+    
+                },
+                {
+                    id: 3,
+                    commentTxt: "test desctiption",
+                    createTime:"2021-09-12",
+                    writer: "tester",
+                    updateTime: "2021-09-12",
+                    thumbnailAddress: "String"
+                },
+            ]
+        }
+    }
+}
