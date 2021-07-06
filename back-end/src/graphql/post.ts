@@ -1,6 +1,4 @@
-import { buildSchema } from "graphql";
-
-const typeDefs = buildSchema(`
+export const typeDefs = `
     type Post {
         id: String
         title: String
@@ -10,6 +8,40 @@ const typeDefs = buildSchema(`
         writer: String
         thumbnailAddress: String
     }
-`);
+`;
 
-export default typeDefs;
+export const resolver = {
+    Query: {
+        get_post:  () => {
+                return [
+                    {
+                        id: 1,
+                        title: "test1",
+                        description: "test desctiption",
+                        createTime:"2021-09-12",
+                        writer: "tester",
+                        updateTime: "2021-09-12",
+                        thumbnailAddress: "String"
+                    },
+                    {
+                        id: 2,
+                        title: "test1",
+                        description: "test desctiption",
+                        createTime:"2021-09-12",
+                        writer: "tester",
+                        updateTime: "2021-09-12",
+                        thumbnailAddress: "String"
+                    },
+                    {
+                        id: 3,
+                        title: "test1",
+                        description: "test desctiption",
+                        createTime:"2021-09-12",
+                        writer: "tester",
+                        updateTime: "2021-09-12",
+                        thumbnailAddress: "String"
+                    },
+                ]
+            }
+    }
+}

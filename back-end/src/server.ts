@@ -1,36 +1,14 @@
 import express, { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import HTTP from 'http';
-import HTTPS from 'https';
-import path from 'path';
+// import HTTPS from 'https';
+// import path from 'path';
 import cors from 'cors';
-import fs from 'fs';
-import { buildSchema } from 'graphql';
-
-const schema = buildSchema(`
-    type Query {
-        hello: String
-        persons: [Person]
-    }
-
-    type Person {
-        id: ID
-        name: String
-        age: Int
-    }
-`);
-
-const root = {   
-    hello: () => 'Hello world!',
-    persons: () => {
-        return [
-            {name:"kim", age: 20},
-            {name:"lee", age: 30},
-            {name:"park", age: 40},
-        ];
-    } 
-};
-
+// import fs from 'fs';
+import schema from './graphql/schema';
+import connectDatabase from './database/connection';
+import { Container } from 'typeorm-typedi-extensions';
+import RootRouter from './api';
 
 class Server {
   public app: Express; // app 타입 선언
@@ -43,10 +21,10 @@ class Server {
 
   // controller router use
   private setRouter() {
-    // this.app.use('/api', Container.get(RootRouter).getRouter());
+    this.app.use('/api', Container.get(RootRouter).getRouter());
     this.app.use('/graphql', graphqlHTTP({
-        schema: schema,
-        rootValue: root,
+        schema,
+        // rootValue: root,
         graphiql: true, // 그래프 ql의 스키마 값을 확인할 수 있도록 인터페이스를 제공할지 말지에 대한 여부 (server domain/graphql)로 접속하면 인터페이스 확인 가능
     }))
   }
@@ -61,16 +39,15 @@ class Server {
   // server start
   public async run(port: string, sslPort?: string) {
     // DB connection
-    // await connectDB();
-
+    await connectDatabase();
 
     // controller router 및 middleware set  함수 실행
-    // this.setMiddleWare();
+    this.setMiddleWare();
     this.setRouter();
 
     try {
       this.server.listen(port, () => {
-        console.log(`Carrot Clon Server is listening started on port ${port}`);
+        console.log(`OI market Server is listening started on port ${port}`);
       });
     } catch (error) {
       console.log(error);
